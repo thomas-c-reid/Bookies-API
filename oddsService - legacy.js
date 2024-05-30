@@ -6,7 +6,6 @@ const fs = require('fs');
 
 const app = express();
 const port = 3000;
-const APIKEY = '8898079a3451f9e0ac42b0da2c883644';
 const CSV_BASE_URL = 'odds_data'
 const HISTORICAL_BASE_URL = 'historical'
 

@@ -6,7 +6,6 @@ const getAllSports = async (req, res) => {
     try {
         const response = await bettingService.getSportData();
         console.log(response);
-        csvService.csvSave(response, config.sportsCsv.url, config.sportsCsv.fieldMapping)
         res.status(200).json(response);
     } catch (error) {
         console.error('Error fetching betting data:', error);
@@ -18,11 +17,9 @@ const getOddsBySport = async (req, res) => {
     try {
         const sportsName = req.params.sport;
         const response = await bettingService.getOddsForSport(sportsName);
-        csvService.csvSave(response, config.oddsBySport.url, config.oddsBySport.fieldMapping)
-        console.log(response);
         res.status(200).json(response);
     } catch (error){
-        console.log(`Error fetching Odds data for ${sportName}`, error)
+        console.log(`Error fetching Odds data for ${sportsName}`, error)
         res.status(500).json({message: 'Error fetching betting data'})
     }
 };
@@ -31,8 +28,8 @@ const getEventsBySport = async (req, res) => {
     try {
         const sportName = req.params.sport;
         const response = await bettingService.getEventsForSport(sportName);
-        console.log(response);
-        csvService.csvSave(response, config.eventsBySport.url, config.eventsBySport.fieldMapping)
+        // console.log(response);
+        // csvService.csvSave(response, config.eventsBySport.url, config.eventsBySport.fieldMapping)
         res.status(200).json(response);
     } catch (error) {
         console.log(`Error fetching Event data for ${sportName}`, error);
@@ -45,8 +42,7 @@ const getEventsBySportEventId = async (req, res) => {
         const sportName = req.params.sport;
         const eventId = req.params.eventId
         const response = await bettingService.getEventsForSportEventId(sportName, eventId);
-        console.log(response);
-        csvService.csvSave(response, config.oddsForEvent.url, config.oddsForEvent.fieldMapping)
+        // csvService.csvSave(response, config.oddsForEvent.url, config.oddsForEvent.fieldMapping)
         res.status(200).json(response);
     } catch (error) {
         console.log(`Error fetching Event data for ${sportName}`, error);

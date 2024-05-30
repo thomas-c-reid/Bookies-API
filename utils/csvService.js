@@ -2,14 +2,9 @@ import { Parser } from 'json2csv';
 import { writeFileSync } from 'fs';
 
 
-const csvSave = (data, filename, fieldMapping) => {
-    console.log('Type of response.data:', typeof data);
-    
-    // This can probs go after testing
-    if (Array.isArray(data)) {
-        console.log('Extracted array:', typeof data);
-    } else {
-      console.error('Expected an array but got:', typeof data);
+const csvSave = (data, filename, fieldMapping) => {    
+    if (Array.isArray(data) == false) {
+        console.error('Expected an array but got:', typeof data);
     };
 
     const opts = { fieldMapping };
