@@ -3,53 +3,106 @@
 "americanfootball_ncaaf","American Football","NCAAF","US College Football",true,false
 "americanfootball_ncaaf_championship_winner","American Football","NCAAF Championship Winner","US College Football Championship Winner",true,true
 "americanfootball_nfl","American Football","NFL","US Football",true,false
+"americanfootball_nfl_preseason","American Football","NFL Preseason","US Football",false,false
 "americanfootball_nfl_super_bowl_winner","American Football","NFL Super Bowl Winner","Super Bowl Winner 2024/2025",true,true
 "americanfootball_ufl","American Football","UFL","United Football League",true,false
 "aussierules_afl","Aussie Rules","AFL","Aussie Football",true,false
 "baseball_kbo","Baseball","KBO","KBO League",true,false
 "baseball_milb","Baseball","MiLB","Minor League Baseball",true,false
 "baseball_mlb","Baseball","MLB","Major League Baseball",true,false
+"baseball_mlb_preseason","Baseball","MLB Preseason","Major League Baseball",false,false
 "baseball_mlb_world_series_winner","Baseball","MLB World Series Winner","World Series Winner 2024",true,true
 "baseball_ncaa","Baseball","NCAA Baseball","US College Baseball",true,false
 "baseball_npb","Baseball","NPB","Nippon Professional Baseball",true,false
+"basketball_euroleague","Basketball","Basketball Euroleague","Basketball Euroleague",false,false
 "basketball_nba","Basketball","NBA","US Basketball",true,false
-"basketball_nba_championship_winner","Basketball","NBA Championship Winner","Championship Winner 2023/2024",true,true
+"basketball_nba_championship_winner","Basketball","NBA Championship Winner","Championship Winner 2024/2025",true,true
+"basketball_nba_preseason","Basketball","NBA Preseason","US Basketball",false,false
+"basketball_ncaab","Basketball","NCAAB","US College Basketball",false,false
+"basketball_ncaab_championship_winner","Basketball","NCAAB Championship Winner","US College Basketball Championship Winner",true,true
 "basketball_wnba","Basketball","WNBA","US Basketball",true,false
 "boxing_boxing","Boxing","Boxing","Boxing Bouts",true,false
+"cricket_asia_cup","Cricket","Asia Cup","Asia Cup",false,false
+"cricket_big_bash","Cricket","Big Bash","Big Bash League",false,false
+"cricket_caribbean_premier_league","Cricket","CPLT20","Caribbean Premier League",false,false
+"cricket_icc_world_cup","Cricket","ICC World Cup","ICC World Cup",false,false
+"cricket_international_t20","Cricket","International Twenty20","International Twenty20",false,false
+"cricket_ipl","Cricket","IPL","Indian Premier League",false,false
+"cricket_odi","Cricket","One Day Internationals","One Day Internationals",false,false
+"cricket_psl","Cricket","Pakistan Super League","Pakistan Super League",false,false
 "cricket_t20_blast","Cricket","T20 Blast","T20 Blast",true,false
-"golf_masters_tournament_winner","Golf","Masters Tournament Winner","2024 Winner",true,true
-"golf_pga_championship_winner","Golf","PGA Championship Winner","2024 Winner",true,true
+"cricket_test_match","Cricket","Test Matches","International Test Matches",false,false
+"cricket_the_hundred","Cricket","The Hundred","The Hundred",false,false
+"golf_masters_tournament_winner","Golf","Masters Tournament Winner","2025 Winner",true,true
+"golf_pga_championship_winner","Golf","PGA Championship Winner","2025 Winner",true,true
 "golf_the_open_championship_winner","Golf","The Open Winner","2024 Winner",true,true
 "golf_us_open_winner","Golf","US Open Winner","2024 Winner",true,true
 "icehockey_nhl","Ice Hockey","NHL","US Ice Hockey",true,false
 "icehockey_nhl_championship_winner","Ice Hockey","NHL Championship Winner","Stanley Cup Winner 2023/2024",true,true
+"icehockey_sweden_allsvenskan","Ice Hockey","HockeyAllsvenskan","Swedish Hockey Allsvenskan",false,false
+"icehockey_sweden_hockey_league","Ice Hockey","SHL","Swedish Hockey League",false,false
 "lacrosse_pll","Lacrosse","PLL","Premier Lacrosse League",true,false
 "mma_mixed_martial_arts","Mixed Martial Arts","MMA","Mixed Martial Arts",true,false
 "politics_us_presidential_election_winner","Politics","US Presidential Elections Winner","2024 US Presidential Election Winner",true,true
 "rugbyleague_nrl","Rugby League","NRL","Aussie Rugby League",true,false
+"soccer_africa_cup_of_nations","Soccer","Africa Cup of Nations","Africa Cup of Nations",false,false
 "soccer_argentina_primera_division","Soccer","Primera División - Argentina","Argentine Primera División",true,false
-"soccer_belgium_first_div","Soccer","Belgium First Div","Belgian First Division A",true,false
+"soccer_australia_aleague","Soccer","A-League","Aussie Soccer",false,false
+"soccer_austria_bundesliga","Soccer","Austrian Football Bundesliga","Austrian Soccer",false,false
+"soccer_belgium_first_div","Soccer","Belgium First Div","Belgian First Division A",false,false
 "soccer_brazil_campeonato","Soccer","Brazil Série A","Brasileirão Série A",true,false
 "soccer_brazil_serie_b","Soccer","Brazil Série B","Campeonato Brasileiro Série B",true,false
 "soccer_chile_campeonato","Soccer","Primera División - Chile","Campeonato Chileno",true,false
+"soccer_china_superleague","Soccer","Super League - China","Chinese Soccer",true,false
 "soccer_conmebol_copa_america","Soccer","Copa América","CONMEBOL Copa América",true,false
 "soccer_conmebol_copa_libertadores","Soccer","Copa Libertadores","CONMEBOL Copa Libertadores",true,false
-"soccer_denmark_superliga","Soccer","Denmark Superliga","Danish Soccer",true,false
+"soccer_denmark_superliga","Soccer","Denmark Superliga","Danish Soccer",false,false
+"soccer_efl_champ","Soccer","Championship","EFL Championship",false,false
+"soccer_england_efl_cup","Soccer","EFL Cup","League Cup",false,false
+"soccer_england_league1","Soccer","League 1","EFL League 1",false,false
+"soccer_england_league2","Soccer","League 2","EFL League 2 ",false,false
+"soccer_epl","Soccer","EPL","English Premier League",false,false
+"soccer_fa_cup","Soccer","FA Cup","Football Association Challenge Cup",false,false
+"soccer_fifa_world_cup","Soccer","FIFA World Cup","FIFA World Cup 2022",false,false
 "soccer_fifa_world_cup_winner","Soccer","FIFA World Cup Winner","FIFA World Cup Winner 2026",true,true
+"soccer_fifa_world_cup_womens","Soccer","FIFA Women's World Cup","FIFA Women's World Cup",false,false
 "soccer_finland_veikkausliiga","Soccer","Veikkausliiga - Finland","Finnish  Soccer",true,false
-"soccer_italy_serie_a","Soccer","Serie A - Italy","Italian Soccer",true,false
+"soccer_france_ligue_one","Soccer","Ligue 1 - France","French Soccer",false,false
+"soccer_france_ligue_two","Soccer","Ligue 2 - France","French Soccer",false,false
+"soccer_germany_bundesliga","Soccer","Bundesliga - Germany","German Soccer",false,false
+"soccer_germany_bundesliga2","Soccer","Bundesliga 2 - Germany","German Soccer",false,false
+"soccer_germany_liga3","Soccer","3. Liga - Germany","German Soccer",false,false
+"soccer_greece_super_league","Soccer","Super League - Greece","Greek Soccer",false,false
+"soccer_italy_serie_a","Soccer","Serie A - Italy","Italian Soccer",false,false
+"soccer_italy_serie_b","Soccer","Serie B - Italy","Italian Soccer",false,false
 "soccer_japan_j_league","Soccer","J League","Japan Soccer League",true,false
-"soccer_korea_kleague1","Soccer","K League 1","Korean Soccer",true,false
+"soccer_korea_kleague1","Soccer","K League 1","Korean Soccer",false,false
 "soccer_league_of_ireland","Soccer","League of Ireland","Airtricity League Premier Division",true,false
-"soccer_netherlands_eredivisie","Soccer","Dutch Eredivisie","Dutch Soccer",true,false
-"soccer_norway_eliteserien","Soccer","Eliteserien - Norway","Norwegian Soccer",true,false
+"soccer_mexico_ligamx","Soccer","Liga MX","Mexican Soccer",false,false
+"soccer_netherlands_eredivisie","Soccer","Dutch Eredivisie","Dutch Soccer",false,false
+"soccer_norway_eliteserien","Soccer","Eliteserien - Norway","Norwegian Soccer",false,false
+"soccer_poland_ekstraklasa","Soccer","Ekstraklasa - Poland","Polish Soccer",false,false
+"soccer_portugal_primeira_liga","Soccer","Primeira Liga - Portugal","Portugese Soccer",false,false
+"soccer_spain_la_liga","Soccer","La Liga - Spain","Spanish Soccer",false,false
 "soccer_spain_segunda_division","Soccer","La Liga 2 - Spain","Spanish Soccer",true,false
+"soccer_spl","Soccer","Premiership - Scotland","Scottish Premiership",false,false
 "soccer_sweden_allsvenskan","Soccer","Allsvenskan - Sweden","Swedish Soccer",true,false
-"soccer_sweden_superettan","Soccer","Superettan - Sweden","Swedish Soccer",true,false
-"soccer_switzerland_superleague","Soccer","Swiss Superleague","Swiss Soccer",true,false
-"soccer_uefa_champs_league","Soccer","UEFA Champions League","European Champions League",true,false
-"soccer_uefa_champs_league_qualification","Soccer","UEFA Champions League Qualification","European Champions League Qualification",true,false
+"soccer_sweden_superettan","Soccer","Superettan - Sweden","Swedish Soccer",false,false
+"soccer_switzerland_superleague","Soccer","Swiss Superleague","Swiss Soccer",false,false
+"soccer_turkey_super_league","Soccer","Turkey Super League","Turkish Soccer",false,false
+"soccer_uefa_champs_league","Soccer","UEFA Champions League","European Champions League",false,false
+"soccer_uefa_champs_league_qualification","Soccer","UEFA Champions League Qualification","European Champions League Qualification",false,false
+"soccer_uefa_euro_qualification","Soccer","UEFA Euro Qualification","European Championship Qualification",false,false
+"soccer_uefa_europa_conference_league","Soccer","UEFA Europa Conference League","UEFA Europa Conference League",false,false
+"soccer_uefa_europa_league","Soccer","UEFA Europa League","European Europa League",false,false
 "soccer_uefa_european_championship","Soccer","UEFA Euro 2024","UEFA European Championship",true,false
+"soccer_uefa_nations_league","Soccer","UEFA Nations League","UEFA Nations League",false,false
 "soccer_usa_mls","Soccer","MLS","Major League Soccer",true,false
+"tennis_atp_aus_open_singles","Tennis","ATP Australian Open","Men's Singles",false,false
 "tennis_atp_french_open","Tennis","ATP French Open","Men's Singles",true,false
+"tennis_atp_us_open","Tennis","ATP US Open","Men's Singles",false,false
+"tennis_atp_wimbledon","Tennis","ATP Wimbledon","Men's Singles",false,false
+"tennis_wta_aus_open_singles","Tennis","WTA Australian Open","Women's Singles",false,false
 "tennis_wta_french_open","Tennis","WTA French Open","Women's Singles",true,false
+"tennis_wta_us_open","Tennis","WTA US Open","Women's Singles",false,false
+"tennis_wta_wimbledon","Tennis","WTA Wimbledon","Women's Singles",false,false

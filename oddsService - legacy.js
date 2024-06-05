@@ -45,8 +45,6 @@ app.get('/sports', async (req, res) =>{
         console.log('Successfully written to sports CSV');
 
         // await csvWriter.writeRecords(data);
-        res.json(response.data);
-
     } catch (error) {
         console.error('Error message: ', error.message);
         console.error('Error stack: ', error.stack);
@@ -84,7 +82,6 @@ app.get('/sports/:sport/odds', async (req, res) => {
             };
         });
 
-        console.log(response.data)
 
         const fields = ['id', 'sport_key', 'sport_title', 'commence_time', 'home_team', 'away_team', 'bookmakers'];
         const opts = { fields };
@@ -115,8 +112,6 @@ app.get('/sports/:sport/events', async (req, res) => {
         const url = `${base_url}/v4/sports/${sport}/events?apiKey=${APIKEY}`;
         console.log('URL: ', url);
         response = await axios.get(url);
-
-        console.log(response.data);
 
         const fields = ['id', 'sport_key', 'sport_title', 'commence_time', 'home_team', 'away_team'];
         const opts = { fields };
