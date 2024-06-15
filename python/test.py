@@ -4,7 +4,7 @@ import strategies
 import strategies.basic_strategy_3
 
 # Initially build out this file to test the random strategy
-file_path = 'data/beatTheBookies/closing_odds.csv.gz'
+file_path = '../data/beatTheBookies/closing_odds.csv.gz'
 closing_odds = pd.read_csv(file_path, compression='gzip', sep=',', quotechar='"')
 
 class testStrategies():
@@ -15,10 +15,15 @@ class testStrategies():
     def load_strategies(self):
         self.strategies.append(strategies.basic_strategy_3.BasicStrategy3(file_path))
 
-    def run_strategies(self):
+    def run_strategies(self, verbose=False, save_data=False):
         for strat in self.strategies:
             print(f'Beginning to run strategy: {strat.name}')
-            strat.run_strategy()
+            strat.run_strategy(verbose=verbose, save_data=save_data)
+
+    def visualise_strategy_results(self):
+        for strat in self.strategies:
+            print(f'Creating visuasations for {strat.name}')
+            strat.create_visualisations()
     
     def test_data_on_strategy(self):
         for strat in self.strategies:
@@ -32,7 +37,8 @@ class testStrategies():
 
 
 main = testStrategies()
-main.test_data_on_strategy()
+main.run_strategies(verbose=True, save_data=True)
+# main.visualise_strategy_results()
 
 
 

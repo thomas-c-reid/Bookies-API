@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from json import loads
+import matplotlib.pyplot as plt
 # TODO:
 # add inheritance from base_strategy
 
@@ -13,8 +14,9 @@ from json import loads
 
 class BasicStrategy3():
     def __init__(self, file_path):
-        self.name = 'basic_strategy_1_reproduction_of_of_kaggle_code'
+        self.name = 'Basic Strategy 3'
         self.bankroll = 1000
+        self.initial_bankroll = 1000
         self.bet_amount = 50
         self.margin = 0.05
         self.data = None
@@ -27,6 +29,11 @@ class BasicStrategy3():
         self.load_data()
         self.oddsForEventBaseURL = 'data/oddsForEvent/'
         self.selected_sports = ['soccer_uefa_european_championship.csv']
+        self.daily_results_columns = [
+            'date', 'total_daily_profit', 'number_of_bets', 'number_of_wins',
+            'number_of_losses', 'daily_profit', 'daily_losses', 'total_cash'
+        ]
+        self.daily_results_csv_url = '../data/dailyResults/strategy3.csv'
 
     # Simulation Functions
     def load_data(self):
@@ -37,7 +44,7 @@ class BasicStrategy3():
                       1 * (self.data['home_score'] == self.data['away_score']) +\
                       2 * (self.data['home_score'] < self.data['away_score'])
 
-    def run_strategy(self):
+    def run_strategy(self, verbose=False, save_data=False):
         '''
         func to run strategy
         '''
@@ -51,6 +58,9 @@ class BasicStrategy3():
         max_odds_total = []
         mean_odds_total = []
         ids_total = []
+
+        daily_results = pd.DataFrame(columns=self.daily_results_columns)
+
         for name, group in grouped_data:
             result = 0 * (group['home_score'] > group['away_score']) +\
                       1 * (group['home_score'] == group['away_score']) +\
@@ -81,8 +91,6 @@ class BasicStrategy3():
                                 (max_arg_daily==1) * group['avg_odds_draw'] + \
                                 (max_arg_daily==2) * group['avg_odds_away_win']
             
-            # should_bet_daily = max_margin_daily > 0
-
             bet_size, should_bet_daily = self.calculate_bet_size(max_margin_daily, self.bet_amount, self.bankroll, group['n_odds_away_win'])
 
             outcome = bet_size * (max_margin_max_odds_daily - 1) * (max_arg_daily == result) - bet_size * (max_arg_daily != result)
@@ -96,17 +104,44 @@ class BasicStrategy3():
 
             self.bankroll += sum(outcome[should_bet_daily])
 
-            print('*'*50)
-            print(f'Days profit: {sum(outcome[should_bet_daily])}')
-            print(f'number of bets placed: {len(outcome[should_bet_daily])}')
-            if len(outcome[should_bet_daily]) > 0:  # Ensure there are bets today to avoid errors
-                best_bet_today = outcome[should_bet_daily].max()
-                worst_bet_today = outcome[should_bet_daily].min()
-                print(f"Day: {name.date()} - Best Bet: {best_bet_today}, Worst Bet: {worst_bet_today}")
-            else:
-                print(f"Day: {name.date()} - No bets placed.")
-            print(f'Current Bankroll: {self.bankroll}')
-            print('*'*50)
+            if verbose:
+                print('*'*50)
+                print(f'Days profit: {sum(outcome[should_bet_daily])}')
+                print(f'number of bets placed: {len(outcome[should_bet_daily])}')
+                if len(outcome[should_bet_daily]) > 0:  # Ensure there are bets today to avoid errors
+                    best_bet_today = outcome[should_bet_daily].max()
+                    worst_bet_today = outcome[should_bet_daily].min()
+                    print(f"Day: {name.date()} - Best Bet: {best_bet_today}, Worst Bet: {worst_bet_today}")
+                else:
+                    print(f"Day: {name.date()} - No bets placed.")
+                print(f'Current Bankroll: {self.bankroll}')
+                print('*'*50)
+
+            number_of_wins = accuracy.sum()
+            number_of_losses = len(accuracy) - number_of_wins
+
+            daily_profit = outcome[should_bet_daily & (max_arg_daily == result)].sum()
+            daily_loss = outcome[should_bet_daily & (max_arg_daily != result)].sum()
+
+            if save_data:
+                current_day_results = pd.DataFrame({
+                'date': [name.date()],
+                'total_daily_profit': [round(sum(outcome[should_bet_daily]), 2)],
+                'number_of_bets': [len(outcome[should_bet_daily])],
+                'number_of_wins': [number_of_wins],
+                'number_of_losses': [number_of_losses],
+                'daily_profit': [round(daily_profit, 2)],
+                'daily_losses': [round(daily_loss, 2)],
+                'total_cash': [round(self.bankroll, 2)]
+            })
+
+            # Append day's results to the DataFrame using concat
+            daily_results = pd.concat([daily_results, current_day_results], ignore_index=True)
+
+        if save_data:
+            daily_results.to_csv(self.daily_results_csv_url, index=False)
+            print(f"Results saved to {self.daily_results_csv_url}")
+
 
         self.results['money'] = np.cumsum(np.concatenate(money_total))
         self.results['accuracy'] = np.cumsum(np.concatenate(accuracy_total))
@@ -115,6 +150,15 @@ class BasicStrategy3():
         self.results['ids'] = np.cumsum(np.concatenate(ids_total))
 
         self.calculate_results()
+        error, info, error_dates = self.find_error_bets()
+        if error:
+            print(info)
+        else:
+            print('ALL BETS WERE TRUE')
+
+        self.create_visualisations(error_dates)
+
+        
 
     def calculate_results(self):
         '''
@@ -141,7 +185,6 @@ class BasicStrategy3():
         print(f'Profit: {profit}')
         print(f'Final Bankroll: {self.bankroll}')
 
-        # TODO
         # print(f'Home Win prediction Accuracy')
         # print(f'Away Win prediction Accuracy')
         # print(f'Draw prediction Accuracy')
@@ -176,22 +219,74 @@ class BasicStrategy3():
 
         return bet_size, should_bet_daily
 
-    # TODO
-    def save_simulation_returns(self, data):
-        '''
-        function to save the simulated data about which bets were made
-        save to two CSV's (timeseries-bets.csv, simulation_bets_placed)
-        '''
-        pass
-    
-    # TODO
-    def create_visualisations(self):
+    # TODO - continue
+    def create_visualisations(self, error_dates):
         '''
         Function to use the saved simulated data to output graphs about risk/reward for each strategy
-        * Maybe this func should go in test.py
+        *Graph 1 - total_cash over time
         '''
-        pass
+        data = pd.read_csv(self.daily_results_csv_url)
+        data['date'] = pd.to_datetime(data['date'])
+        data['total_cash'] = data['total_cash'].astype(float)
+
+        plt.figure(figsize=(10,5))
+        plt.plot(data['date'], data['total_cash'], marker='o', linestyle='-', label='Total Cash')
+        
+        # Adding in dates with errors
+        error_dates = pd.to_datetime(error_dates)
+        error_cash = data[data['date'].isin(error_dates)]['total_cash']
+        plt.scatter(data[data['date'].isin(error_dates)]['date'], error_cash, color='red', s=50, edgecolors='k', label='Error Dates')
+
+        plt.title(f'Total cash over time for {self.name}')
+        plt.xlabel('Date')
+        plt.ylabel('Total Cash')
+        plt.grid(True)
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
     
+    def find_error_bets(self):
+        '''
+        Go through the created csv for running the simulation and find any days where
+        This will help you debug any potential differences in your results
+        '''
+        error = False # If you find an error anywhere you switch this value to False
+        data = pd.read_csv(self.daily_results_csv_url)
+        info = ''
+        error_dates = set()
+        previous_cash = self.initial_bankroll
+        tolerance = 0.1
+
+        for index, row in data.iterrows():
+            date = row['date']
+            total_daily_profit = row['total_daily_profit']
+
+            expected_total_cash = previous_cash + total_daily_profit
+            cash_difference = row['total_cash'] - expected_total_cash
+            if abs(cash_difference) > 0.01:
+                error = True
+                error_dates.add(date)
+                # difference = row['total_cash'] - (previous_cash + total_daily_profit)
+                info += f'ERROR on {date} | total_cash != previous_cash + daily_profit (difference of {cash_difference}) \n'
+                info += f"ERROR on {date} | {row['total_cash']} != {previous_cash} + {total_daily_profit} (difference of {cash_difference}) \n" 
+
+            expected_daily_profit = row['daily_profit'] + row['daily_losses']
+            profit_difference = total_daily_profit - expected_daily_profit
+            if abs(profit_difference) > tolerance:
+            # if total_daily_profit != (row['daily_profit'] + row['daily_losses']):
+                error = True
+                error_dates.add(date)
+                # difference = total_daily_profit - (row['daily_profit'] + row['daily_losses'])
+                info += f'ERROR on {date} | total_daily_profit != daily_profit + daily_losses (difference of {profit_difference}) \n'   
+                info += f"ERROR on {date} | {total_daily_profit} != {row['daily_profit']} + {row['daily_losses']} (difference of {profit_difference}) \n"   
+            previous_cash = row['total_cash']
+
+        if error_dates:
+                percentage_of_error_days = len(error_dates) / len(data) * 100
+                info += f'Total percentage of error dates: {percentage_of_error_days:.2f}% ({len(error_dates)}/{len(data)})'
+
+        return error, info, pd.Series(list(error_dates))
+
     # Using Live Data Functions
     def process_data_to_test_strategy(self, seleected_date=None):
         # Get todays date
@@ -332,7 +427,7 @@ class BasicStrategy3():
             bet_json['max_arg'] = max_arg_daily
             bet_json['should_bet'] = max_margin_daily > 0
         return bets
-    
+
     # TODO
     def place_bets(self, bets):
         '''
