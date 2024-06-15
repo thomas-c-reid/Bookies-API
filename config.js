@@ -8,7 +8,7 @@ const config = {
     legacyDatasetUrl: '../../Datasets/Bookies-Data',
 
     sportsCsv: {
-        url: '../data/sports-test.csv',
+        url: '../data/sports.csv',
         fieldMapping: ['key', 'group', 'title', 'description', 'active', 'has_outrights']
     },
 

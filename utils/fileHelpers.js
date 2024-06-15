@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import config from '../config.js';
 import {parse} from 'csv-parse';
-import { CsvStringifier } from 'csv-writer/src/lib/csv-stringifiers/abstract.js';
 
 const createDirectoryIfNotExist = (dir) => {
     if (fs.existsSync(dir)) {

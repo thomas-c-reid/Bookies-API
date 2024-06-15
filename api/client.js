@@ -79,12 +79,12 @@ const fetchData = async () => {
     console.log()
 };
 
-const testLegacy = () => {
-    fileHelpers.saveToLegacyDateFolder();
-};
+// const testLegacy = () => {
+//     fileHelpers.saveToLegacyDateFolder();
+// };
 
-testLegacy();
-// fetchData();
+// testLegacy();
+fetchData();
 
 
 
