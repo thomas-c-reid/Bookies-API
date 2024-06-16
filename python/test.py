@@ -1,7 +1,8 @@
-import numpy as np
-import pandas as pd
+import numpy as np # type: ignore
+import pandas as pd # type: ignore
 import strategies
 import strategies.basic_strategy_3
+import strategies.basic_strategy_1
 
 # Initially build out this file to test the random strategy
 file_path = '../data/beatTheBookies/closing_odds.csv.gz'
@@ -13,7 +14,8 @@ class testStrategies():
         self.load_strategies()
 
     def load_strategies(self):
-        self.strategies.append(strategies.basic_strategy_3.BasicStrategy3(file_path))
+        # self.strategies.append(strategies.basic_strategy_3.strategy3(file_path))
+        self.strategies.append(strategies.basic_strategy_1.strategy1(file_path))
 
     def run_strategies(self, verbose=False, save_data=False):
         for strat in self.strategies:
@@ -39,6 +41,7 @@ class testStrategies():
 main = testStrategies()
 main.run_strategies(verbose=True, save_data=True)
 # main.visualise_strategy_results()
+# main.test_data_on_strategy()
 
 
 

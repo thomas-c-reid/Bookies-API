@@ -1,8 +1,9 @@
-import pandas as pd
-import numpy as np
+import pandas as pd # type: ignore
+import numpy as np # type: ignore
 from datetime import datetime
 from json import loads
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # type: ignore
+
 # TODO:
 # add inheritance from base_strategy
 
@@ -12,9 +13,10 @@ import matplotlib.pyplot as plt
 # Would also need to change bet size based on confidence of bet
 # Need to make simulate bet a bit more life realistic
 
-class BasicStrategy3():
-    def __init__(self, file_path):
+class strategy3():
+    def __init__(self, file_path, dashboard_mode=False):
         self.name = 'Basic Strategy 3'
+        self.description = ''' Very basic trading strategy which identifies value bets then alters the betting amount based off confidence levels'''
         self.bankroll = 1000
         self.initial_bankroll = 1000
         self.bet_amount = 50
@@ -27,13 +29,17 @@ class BasicStrategy3():
         self.n_valid_odds = 3
         self.results = {}
         self.load_data()
-        self.oddsForEventBaseURL = 'data/oddsForEvent/'
         self.selected_sports = ['soccer_uefa_european_championship.csv']
         self.daily_results_columns = [
             'date', 'total_daily_profit', 'number_of_bets', 'number_of_wins',
             'number_of_losses', 'daily_profit', 'daily_losses', 'total_cash'
         ]
-        self.daily_results_csv_url = '../data/dailyResults/strategy3.csv'
+        if dashboard_mode:
+            self.daily_results_csv_url = '../../data/dailyResults/strategy3.csv'
+            self.oddsForEventBaseURL = '../../data/oddsForEvent/'
+        else:
+            self.oddsForEventBaseURL = '../data/oddsForEvent/'
+            self.daily_results_csv_url = '../data/dailyResults/strategy3.csv'
 
     # Simulation Functions
     def load_data(self):
@@ -157,7 +163,6 @@ class BasicStrategy3():
             print('ALL BETS WERE TRUE')
 
         self.create_visualisations(error_dates)
-
         
 
     def calculate_results(self):
@@ -219,8 +224,8 @@ class BasicStrategy3():
 
         return bet_size, should_bet_daily
 
-    # TODO - continue
-    def create_visualisations(self, error_dates):
+    # Visulisations
+    def create_visualisations(self, error_dates=None):
         '''
         Function to use the saved simulated data to output graphs about risk/reward for each strategy
         *Graph 1 - total_cash over time
@@ -233,10 +238,11 @@ class BasicStrategy3():
         plt.plot(data['date'], data['total_cash'], marker='o', linestyle='-', label='Total Cash')
         
         # Adding in dates with errors
-        error_dates = pd.to_datetime(error_dates)
-        error_cash = data[data['date'].isin(error_dates)]['total_cash']
-        plt.scatter(data[data['date'].isin(error_dates)]['date'], error_cash, color='red', s=50, edgecolors='k', label='Error Dates')
+        if len(error_dates) > 0:
+            error_dates = pd.to_datetime(error_dates)
+            error_cash = data[data['date'].isin(error_dates)]['total_cash']
 
+        # # total cash over time
         plt.title(f'Total cash over time for {self.name}')
         plt.xlabel('Date')
         plt.ylabel('Total Cash')
@@ -244,7 +250,8 @@ class BasicStrategy3():
         plt.xticks(rotation=45)
         plt.tight_layout()
         plt.show()
-    
+
+
     def find_error_bets(self):
         '''
         Go through the created csv for running the simulation and find any days where
@@ -456,8 +463,7 @@ class BasicStrategy3():
             print('*'*50)
             print(bet)
             print('*'*50)
-        
-        self.place_bets(bets)
+        return bets
 
         # add in functions to properly visualise this data
         # Also to 
