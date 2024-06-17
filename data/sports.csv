@@ -5,9 +5,9 @@
 "americanfootball_nfl","American Football","NFL","US Football",true,false
 "americanfootball_nfl_preseason","American Football","NFL Preseason","US Football",false,false
 "americanfootball_nfl_super_bowl_winner","American Football","NFL Super Bowl Winner","Super Bowl Winner 2024/2025",true,true
-"americanfootball_ufl","American Football","UFL","United Football League",true,false
+"americanfootball_ufl","American Football","UFL","United Football League",false,false
 "aussierules_afl","Aussie Rules","AFL","Aussie Football",true,false
-"baseball_kbo","Baseball","KBO","KBO League",true,false
+"baseball_kbo","Baseball","KBO","KBO League",false,false
 "baseball_milb","Baseball","MiLB","Minor League Baseball",false,false
 "baseball_mlb","Baseball","MLB","Major League Baseball",true,false
 "baseball_mlb_preseason","Baseball","MLB Preseason","Major League Baseball",false,false
@@ -36,12 +36,12 @@
 "golf_masters_tournament_winner","Golf","Masters Tournament Winner","2025 Winner",true,true
 "golf_pga_championship_winner","Golf","PGA Championship Winner","2025 Winner",true,true
 "golf_the_open_championship_winner","Golf","The Open Winner","2024 Winner",true,true
-"golf_us_open_winner","Golf","US Open Winner","2024 Winner",true,true
+"golf_us_open_winner","Golf","US Open Winner","2024 Winner",false,true
 "icehockey_nhl","Ice Hockey","NHL","US Ice Hockey",true,false
 "icehockey_nhl_championship_winner","Ice Hockey","NHL Championship Winner","Stanley Cup Winner 2023/2024",true,true
 "icehockey_sweden_allsvenskan","Ice Hockey","HockeyAllsvenskan","Swedish Hockey Allsvenskan",false,false
 "icehockey_sweden_hockey_league","Ice Hockey","SHL","Swedish Hockey League",true,false
-"lacrosse_pll","Lacrosse","PLL","Premier Lacrosse League",true,false
+"lacrosse_pll","Lacrosse","PLL","Premier Lacrosse League",false,false
 "mma_mixed_martial_arts","Mixed Martial Arts","MMA","Mixed Martial Arts",true,false
 "politics_us_presidential_election_winner","Politics","US Presidential Elections Winner","2024 US Presidential Election Winner",true,true
 "rugbyleague_nrl","Rugby League","NRL","Aussie Rugby League",true,false

@@ -1,9 +1,11 @@
-import pandas as pd
-import numpy as np
+import pandas as pd # type: ignore
+import numpy as np # type: ignore
 from datetime import datetime
 from json import loads
-import matplotlib.pyplot as plt
-from .base_strategy import BaseStrategy
+import matplotlib.pyplot as plt # type: ignore
+
+# TODO:
+# add inheritance from base_strategy
 
 # WAYS TO IMPROVE THIS STRATEGY
 # 
@@ -11,13 +13,12 @@ from .base_strategy import BaseStrategy
 # Would also need to change bet size based on confidence of bet
 # Need to make simulate bet a bit more life realistic
 
-class strategy1(BaseStrategy):
+class strategy2():
     def __init__(self, file_path, dashboard_mode=False):
-        self.name = 'Basic Strategy 1'
-        self.description = '''This is the most basic trading strategy (This will replace strategy 1) 
-        it is only checking for value bets and betting £50 on them regardless'''
-        self.bankroll = 1000
-        self.initial_bankroll = 1000
+        self.name = 'Basic Strategy 2'
+        self.description = ''' Very basic trading strategy which identifies value bets with while keeping an eye on bankroll'''
+        self.bankroll = 10000
+        self.initial_bankroll = 10000
         self.bet_amount = 50
         self.margin = 0.05
         self.data = None
@@ -34,11 +35,11 @@ class strategy1(BaseStrategy):
             'number_of_losses', 'daily_profit', 'daily_losses', 'total_cash'
         ]
         if dashboard_mode:
-            self.daily_results_csv_url = '../../data/dailyResults/strategy1.csv'
+            self.daily_results_csv_url = '../../data/dailyResults/strategy2.csv'
             self.oddsForEventBaseURL = '../../data/oddsForEvent/'
         else:
             self.oddsForEventBaseURL = '../data/oddsForEvent/'
-            self.daily_results_csv_url = '../data/dailyResults/strategy1.csv'
+            self.daily_results_csv_url = '../data/dailyResults/strategy2.csv'
 
     # Simulation Functions
     def load_data(self):
@@ -96,28 +97,27 @@ class strategy1(BaseStrategy):
                                 (max_arg_daily==1) * group['avg_odds_draw'] + \
                                 (max_arg_daily==2) * group['avg_odds_away_win']
             
-            # bet_size, should_bet_daily = self.calculate_bet_size(max_margin_daily, self.bet_amount, self.bankroll, group['n_odds_away_win'])
-            should_bet_daily = max_margin_daily > 0
+            bet_size, should_bet_daily = self.calculate_bet_size(max_margin_daily, self.bet_amount, self.bankroll, group['n_odds_away_win'])
+            should_bet_indices = should_bet_daily.index[should_bet_daily == 1]
 
+            outcome = bet_size * (max_margin_max_odds_daily - 1) * (max_arg_daily == result) - bet_size * (max_arg_daily != result)
+            accuracy = (max_arg_daily == result)[should_bet_indices].apply(int)
 
-            outcome = self.bet_amount * (max_margin_max_odds_daily - 1) * (max_arg_daily == result) - self.bet_amount * (max_arg_daily != result)
-            accuracy = (max_arg_daily == result)[should_bet_daily].apply(int)
-
-            money_total.append((outcome[should_bet_daily]))
+            money_total.append((outcome[should_bet_indices]))
             accuracy_total.append(accuracy)
-            max_odds_total.append(max_margin_max_odds_daily[should_bet_daily])
-            mean_odds_total.append(max_margin_mean_odds_daily[should_bet_daily])
-            ids_total.append(max_arg_daily.iloc[np.where(should_bet_daily)])
+            max_odds_total.append(max_margin_max_odds_daily[should_bet_indices])
+            mean_odds_total.append(max_margin_mean_odds_daily[should_bet_indices])
+            ids_total.append(max_arg_daily.iloc[np.where(should_bet_indices)])
 
-            self.bankroll += sum(outcome[should_bet_daily])
+            self.bankroll += sum(outcome[should_bet_indices])
 
             if verbose:
                 print('*'*50)
-                print(f'Days profit: {sum(outcome[should_bet_daily])}')
-                print(f'number of bets placed: {len(outcome[should_bet_daily])}')
-                if len(outcome[should_bet_daily]) > 0:  # Ensure there are bets today to avoid errors
-                    best_bet_today = outcome[should_bet_daily].max()
-                    worst_bet_today = outcome[should_bet_daily].min()
+                print(f'Days profit: {sum(outcome[should_bet_indices])}')
+                print(f'number of bets placed: {len(outcome[should_bet_indices])}')
+                if len(outcome[should_bet_indices]) > 0:  # Ensure there are bets today to avoid errors
+                    best_bet_today = outcome[should_bet_indices].max()
+                    worst_bet_today = outcome[should_bet_indices].min()
                     print(f"Day: {name.date()} - Best Bet: {best_bet_today}, Worst Bet: {worst_bet_today}")
                 else:
                     print(f"Day: {name.date()} - No bets placed.")
@@ -127,14 +127,17 @@ class strategy1(BaseStrategy):
             number_of_wins = accuracy.sum()
             number_of_losses = len(accuracy) - number_of_wins
 
-            daily_profit = outcome[should_bet_daily & (max_arg_daily == result)].sum()
-            daily_loss = outcome[should_bet_daily & (max_arg_daily != result)].sum()
+            # daily_profit = outcome[should_bet_indices & (max_arg_daily == result)].sum()
+            # daily_loss = outcome[should_bet_indices & (max_arg_daily != result)].sum()
+
+            daily_profit = outcome[outcome.index.intersection(max_arg_daily[max_arg_daily == result].index)].sum()
+            daily_loss = outcome[outcome.index.intersection(max_arg_daily[max_arg_daily != result].index)].sum()
 
             if save_data:
                 current_day_results = pd.DataFrame({
                 'date': [name.date()],
-                'total_daily_profit': [round(sum(outcome[should_bet_daily]), 2)],
-                'number_of_bets': [len(outcome[should_bet_daily])],
+                'total_daily_profit': [round(sum(outcome[should_bet_indices]), 2)],
+                'number_of_bets': [len(outcome[should_bet_indices])],
                 'number_of_wins': [number_of_wins],
                 'number_of_losses': [number_of_losses],
                 'daily_profit': [round(daily_profit, 2)],
@@ -163,8 +166,7 @@ class strategy1(BaseStrategy):
         else:
             print('ALL BETS WERE TRUE')
 
-        # self.create_visualisations(error_dates)
-
+        self.create_visualisations(error_dates)
         
 
     def calculate_results(self):
@@ -196,6 +198,30 @@ class strategy1(BaseStrategy):
         # print(f'Away Win prediction Accuracy')
         # print(f'Draw prediction Accuracy')
         print('finished calculating results')
+
+    def calculate_bet_size(self, max_margin_daily, bet_amount, bankroll, number_of_bookies):
+
+        # get top n_bets_to_make index wihin max_margin dail
+        # change should_bet_daily to make to values at those indexes turn to one
+        # same with bet_size array and the value 50
+        # TODO add in number of bookies check
+
+        staked_money = bankroll*0.2
+        n_bets_to_make = int(staked_money / 50)
+
+        if n_bets_to_make < 3:
+            n_bets_to_make = 3
+        
+        bet_size = pd.Series(0, index=max_margin_daily.index)
+        should_bet_daily = pd.Series(0, index=max_margin_daily.index)
+
+        bet_indicies = max_margin_daily[max_margin_daily > 0].nlargest(n_bets_to_make).index
+
+        should_bet_daily.loc[bet_indicies] = 1
+        bet_size.loc[bet_indicies] = 50
+
+        return bet_size, should_bet_daily
+
     # Visulisations
     def create_visualisations(self, error_dates=None):
         '''
@@ -426,6 +452,7 @@ class strategy1(BaseStrategy):
         pass
 
     def test_daily_bet_data(self):
+
         
         bets = self.process_data_to_test_strategy()
         print(f'Created Bets: number of bets({len(bets)})')
@@ -435,3 +462,6 @@ class strategy1(BaseStrategy):
             print(bet)
             print('*'*50)
         return bets
+
+        # add in functions to properly visualise this data
+        # Also to 
